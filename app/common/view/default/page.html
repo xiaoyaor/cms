@@ -1,0 +1,62 @@
+{layout name="common/layout" /}
+
+<div class="container" id="content-container">
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="article-content">
+                        <div class="article-metas text-center">
+                            <h1 class="metas-title">
+                                {cms:page name="title" /}
+                            </h1>
+                            <div class="metas-body">
+                                <span class="views-num">
+                                <i class="fa fa-eye"></i> {cms:page name="views" /} 阅读
+                                </span>
+                                <span class="comment-num">
+                                <i class="fa fa-comments"></i> {cms:page name="comments" /} 评论
+                            </span>
+                                <span class="like-num">
+                                <i class="fa fa-thumbs-o-up"></i>
+                                <span class="js-like-num"> {cms:page name="likes" /} 点赞
+                                </span>
+                            </span>
+                            </div>
+                            <!-- E 标题区域 -->
+                        </div>
+                        <div class="article-text">
+                            <!-- S 正文 -->
+                            <p>
+                                {cms:page name="content" /}
+                            </p>
+                            <!-- E 正文 -->
+                        </div>
+
+                        <div class="article-donate">
+                            <a href="javascript:" class="btn btn-primary btn-like btn-lg" data-action="vote" data-type="like" data-id="{cms:page name='id' /}" data-tag="page"><i class="fa fa-thumbs-up"></i> 点赞(<span>{cms:page name='likes' /}</span>)</a>
+                            <a href="javascript:" class="btn btn-outline-primary btn-donate btn-lg" data-image="{$config.donateimage|cdnurl}" data-action="donate" data-id="{cms:page name='id' /}"><i class="fa fa-cny"></i> 打赏</a>
+                        </div>
+
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!--S 评论列表-->
+            <div class="panel panel-default comment-list" id="comments">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{:__('Comment list')}
+                        <small>共 {cms:page name="comments" /} 条评论</small>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    {include file="common/comment" type="page" aid="__PAGE__.id"}
+                </div>
+            </div>
+            <!--E 评论列表-->
+        </div>
+    </div>
+</div>

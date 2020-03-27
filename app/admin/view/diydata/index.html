@@ -1,0 +1,29 @@
+<div class="panel panel-default panel-intro">
+
+    <div class="panel-heading">
+        {:build_heading(null,FALSE)}
+        <ul class="nav nav-tabs" data-field="diyform_id">
+            {foreach name="diyformList" item="vo"}
+            <li class="{:$diyform['id']==$vo['id']?'active':''}"><a href="{:url('cms.diydata/index')}/diyform_id/{$vo.id}" data-value="{$vo.id}">{$vo.name}</a></li>
+            {/foreach}
+        </ul>
+    </div>
+
+    <div class="panel-body">
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade active in" id="one">
+                <div class="widget-body no-padding">
+                    <div id="toolbar" class="toolbar">
+                        {:build_toolbar('refresh,add,edit,del,import')}
+                    </div>
+                    <table id="table" class="table table-striped table-bordered table-hover" 
+                           data-operate-edit="{:$auth->check('cms/block/edit')}" 
+                           data-operate-del="{:$auth->check('cms/block/del')}" 
+                           width="100%">
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

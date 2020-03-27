@@ -1,0 +1,88 @@
+{layout name="common/layout" /}
+
+<link rel="stylesheet" href="__CDN__/assets/libs/toastr/toastr.min.css">
+<link rel="stylesheet" href="__CDN__/assets/libs/bootstrap-daterangepicker/daterangepicker.css">
+<link rel="stylesheet" href="__CDN__/assets/libs/nice-validator/dist/jquery.validator.css">
+<link rel="stylesheet" href="__CDN__/assets/libs/bootstrap-select/dist/css/bootstrap-select.min.css">
+
+<style>
+    #post-form .input-group-addon {
+        background: none;
+    }
+
+    #post-form .panel-default {
+        padding: 0;
+    }
+</style>
+<script type="text/javascript">
+    var require = {
+        config: {$jsconfig|json_encode}
+    };
+</script>
+
+<div class="container" id="content-container">
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <section class="article-content">
+                        <div class="article-metas text-center">
+                            <h1 class="metas-title">
+                                {cms:diyform name="title" /}
+                            </h1>
+                        </div>
+                        <hr>
+                        <div class="py-4">
+                            <!-- S 正文 -->
+
+                            <div class="row">
+                                <div class="col-xs-12 col-md-8 col-md-offset-2">
+                                    <form id="post-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="{:addon_url('cms/diyform/post')}">
+                                        <input type="hidden" name="__diyname__" value="{$diyform['diyname']}">
+                                        {:token()}
+                                        {cms:diyform name="fieldslist" /}
+
+                                        <div class="form-group normal-footer">
+                                            <label class="control-label col-xs-12 col-sm-2"></label>
+                                            <div class="col-xs-12 col-sm-8">
+                                                <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+                                                <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- E 正文 -->
+                        </div>
+
+                        <div class="clearfix"></div>
+                    </section>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script data-render="script">
+    require.callback = function () {
+        define('diyform/index', ['jquery', 'bootstrap', 'frontend', 'form'], function ($, undefined, Frontend, Form) {
+            var Controller = {
+                index: function () {
+                    Form.api.bindevent($("form[role=form]"), function (data, ret) {
+                        Layer.alert(ret.msg, function () {
+                            location.href = ret.url;
+                        });
+                        return false;
+                    });
+                }
+            };
+            return Controller;
+        });
+    }
+</script>
+
+<script data-render="script" src="__CDN__/assets/js/require{$Think.config.app_debug?'':'.min'}.js" data-main="__CDN__/assets/js/require-frontend{$Think.config.app_debug?'':'.min'}.js?v={$site.version}"></script>

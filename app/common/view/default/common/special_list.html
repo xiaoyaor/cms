@@ -1,0 +1,15 @@
+{php}$page=request()->get('page/d',1);$offset=($page-1)*10;{/php}
+
+<!-- S 专题文章列表 -->
+{cms:arclist special="$__SPECIAL__->id" id="item" cache="false" orderby="weigh" limit="$offset,10"}
+{include file="common/item"}
+{/cms:arclist}
+<!-- E 专题文章列表 -->
+
+{if !$__LASTLIST__}
+    <div class="loadmore loadmore-line loadmore-nodata"><span class="loadmore-tips">暂无更多数据</span></div>
+{else /}
+    <div class="text-center">
+        <a href="?page={:$page+1}" data-page="{$page}" class="btn btn-default my-4 px-4 btn-loadmore">加载更多</a>
+    </div>
+{/if}

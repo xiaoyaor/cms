@@ -1,0 +1,275 @@
+{layout name="common/layout" /}
+<style>
+    body {
+        padding-top: 49px;
+    }
+
+    @keyframes wave-animation {
+        0% {
+            transform: translateX(0) translateZ(0) scaleY(1)
+        }
+        50% {
+            transform: translateX(-25%) translateZ(0) scaleY(0.55)
+        }
+        100% {
+            transform: translateX(-50%) translateZ(0) scaleY(1)
+        }
+    }
+
+    .wave-wrapper {
+        height: 430px;
+        position: relative;
+    }
+
+    .wave-inner {
+        position: absolute;
+        width: 100%;
+        overflow: hidden;
+        height: 430px;
+        bottom: -1px;
+        background: #374486;
+    }
+
+    .wave-bg-top {
+        z-index: 15;
+        opacity: 0.5;
+    }
+
+    .wave-bg-middle {
+        z-index: 10;
+        opacity: 0.75;
+    }
+
+    .wave-bg-bottom {
+        z-index: 5;
+    }
+
+    .wave-item {
+        position: absolute;
+        left: 0;
+        width: 200%;
+        height: 430px;
+        background-repeat: repeat no-repeat;
+        background-position: 0 bottom;
+        transform-origin: center bottom;
+    }
+
+    .wave-top {
+        background-size: 50% 100px;
+    }
+
+    .wave-animation .wave-top {
+        animation: wave-animation 3s;
+        -webkit-animation: wave-animation 3s;
+        -webkit-animation-delay: 1s;
+        animation-delay: 1s;
+    }
+
+    .wave-middle {
+        background-size: 50% 120px;
+    }
+
+    .wave-animation .wave-middle {
+        animation: wave-animation 10s linear infinite;
+    }
+
+    .wave-bottom {
+        background-size: 50% 100px;
+    }
+
+    .wave-animation .wave-bottom {
+        animation: wave-animation 15s linear infinite;
+    }
+
+    .userinfo {
+        position: absolute;
+        z-index: 99;
+        text-align: center;
+        width: 100%;
+        top: 0;
+        color: #fff;
+    }
+
+    .header-logo {
+        margin-top: 60px;
+    }
+
+    .userinfo-avatar {
+        background: rgba(0, 0, 0, 0.12);
+        display: inline-block;
+        position: relative;
+        padding: 20px;
+        border-radius: 50%;
+        min-width: 120px;
+    }
+
+    .userinfo-avatar img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .nav-noborder > li.active > a, .nav-noborder > li.active > a:focus, .nav-noborder > li.active > a:hover {
+        border-color: #fff;
+    }
+
+    .nav-noborder {
+        border-bottom: none;
+    }
+
+    .comment-content {
+        border-radius: 3px;
+        padding: 12px;
+        border: none;
+        background: #fafafa;
+        margin-bottom: 0;
+    }
+
+    .comment-content div {
+        line-height: 20px !important;
+        margin-bottom: 0px;
+        margin-top: 0 !important;
+        font-size: 14px !important;
+        font-weight: 400;
+        color: #777;
+        font-family: 'Source Sans Pro', sans-serif;
+    }
+
+    .statistics-nums {
+        margin-top: 5px;
+        color: #999;
+    }
+</style>
+<div class="wave-wrapper wave-animation">
+  <div class="userinfo">
+      <div class="header-logo">
+        <a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}" class="userinfo-avatar">
+            <img class="img-circle" src="{$__USER__.avatar|cdnurl}" alt="{$__USER__.nickname}">
+        </a>
+    </div>
+      <h2 class="">
+        <span><strong>{$__USER__.nickname}</strong></span>
+    </h2>
+    <h5 class="">
+        <span>{$__USER__.bio|default="这家伙很懒，什么也没写"}</span>
+    </h5>
+  </div>
+  <div class="wave-inner wave-bg-top">
+    <div class="wave-item wave-top" style="background-image: url('__ADDON__/img/wave-top.png')"></div>
+  </div>
+  <div class="wave-inner wave-bg-middle">
+    <div class="wave-item wave-middle" style="background-image: url('__ADDON__/img/wave-mid.png')"></div>
+  </div>
+  <div class="wave-inner wave-bg-bottom">
+    <div class="wave-item wave-bottom" style="background-image: url('__ADDON__/img/wave-bot.png')"></div>
+  </div>
+</div>
+
+<div class="container-fluid" style="padding:0px 0 50px 0;background:#fff;">
+    <header class="space-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-8 col-md-4 col-md-offset-4">
+                    <div class="row statistics pt-1 text-center" style="border-top:none;">
+                        <div class="col-xs-4">
+
+                            <div class="statistics-text">文章</div>
+                            <a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}/archives">
+                                <div class="statistics-nums">{$statistics.archives}</div>
+                            </a>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="statistics-text">评论</div>
+                            <a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}/comment">
+                                <div class="statistics-nums">{$statistics.comments}</div>
+                            </a>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="statistics-text">加入时间</div>
+                            <div class="statistics-nums">{$__USER__.createtime|human_date}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+</div>
+
+<div class="container" id="content-container">
+    <div class="row mt-4 mb-4">
+        <div class="col-md-8 col-sm-12">
+            <ul class="nav nav-tabs nav-noborder mb-10 mt-20">
+                <li class="active"><a href="javascript:;">{$title}</a></li>
+            </ul>
+            <div class="tab-inner" style="background:#fff;padding:15px;">
+                {if $type == 'archives'}
+                    <div class="article-list">
+                        {volist name="archivesList" id="item"}
+                            {include file="common/item" /}
+                        {/volist}
+                        {if $archivesList->isEmpty()}
+                            <div class="loadmore loadmore-line loadmore-nodata"><span class="loadmore-tips">暂无更多数据</span></div>
+                        {else /}
+                            <div class="text-center">
+                                <a href="?page={:$page+1}" data-page="{$page}" class="btn btn-default my-4 px-4 btn-loadmore">加载更多</a>
+                            </div>
+                        {/if}
+                    </div>
+                {else/}
+                    <div class="article-list">
+                    {volist name="commentList" id="item"}
+                        <article class="article-item">
+                            <div class="media">
+                                <div class="media-left">
+                                    <a href="{$item.archives.url}">
+                                        <div class="embed-responsive embed-responsive-4by3 img-zoom">
+                                            <img src="{$item.archives.image}">
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <h3 class="article-title">
+                                        <a href="{$item.archives.url}" {if $item.archives.style}style="{$item.archives.style_text}" {/if}>{$item.archives.title}</a>
+                                    </h3>
+                                    <div class="comment-content">
+                                        <div>{$item.content}</div>
+                                    </div>
+                                    <div class="article-tag">
+                                        <span itemprop="date"><i class="fa fa-calendar"></i> {:date("Y年m月d日", $item['createtime'])}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </article>
+                    {/volist}
+                    </div>
+                <!-- S 分页栏 -->
+                    <div class="text-center pager">
+                        {:$commentList->render()}
+                    </div>
+                <!-- E 分页栏 -->
+                    {if $commentList->isEmpty()}
+                        <div class="loadmore loadmore-line loadmore-nodata"><span class="loadmore-tips">暂无数据</span></div>
+                    {/if}
+                {/if}
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="article-sidebar">
+                <!-- S 会员菜单 -->
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <ul class="nav nav-pills nav-stacked space-nav">
+                            <li class="{:$type=='archives'?'active':''}"><a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}/archives">{:$user['id']==$__USER__.id?'我':'TA'}的文章</a></li>
+                            <li class="{:$type=='comment'?'active':''}"><a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}/comment">{:$user['id']==$__USER__.id?'我':'TA'}的评论</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- E 会员菜单 -->
+
+                <div class="panel panel-blockimg">
+                    {cms:block name="sidebarad1" /}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+{layout name="common/layout" /}
+
+<div class="container" id="content-container">
+    <h1 class="category-title">
+        {cms:tags name="name" /}
+        <div class="more pull-right">
+            <ol class="breadcrumb">
+                <!-- S 面包屑导航 -->
+                {cms:breadcrumb id="item"}
+                <li><a href="{$item.url}">{$item.name}</a></li>
+                {/cms:breadcrumb}
+                <!-- E 面包屑导航 -->
+            </ol>
+        </div>
+    </h1>
+
+    <div class="row">
+
+        <main class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <span>列表</span>
+
+                        <div class="more">
+                            <ul class="list-unstyled list-inline category-order clearfix">
+                                <!-- S 排序 -->
+                                {cms:pageorder id="order"}
+                                <li><a href="{$order.url}" class="{$order.active?'active':''}">{$order.title}</a></li>
+                                {/cms:pageorder}
+                                <!-- E 排序 -->
+                            </ul>
+                        </div>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="article-list">
+
+                        <!-- S 列表 -->
+                        {cms:pagelist id="item"}
+                        {include file="common/item"}
+                        {/cms:pagelist}
+                        <!-- E 列表 -->
+
+                        <!-- S 分页栏 -->
+                        <div class="text-center pager">
+                            {cms:pageinfo type="full" /}
+                        </div>
+                        <!-- E 分页栏 -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <aside class="col-xs-12 col-sm-4">
+            <div class="panel panel-blockimg">
+                {cms:block name="sidebarad1" /}
+            </div>
+            <div class="panel panel-blockimg">
+                {cms:block name="sidebarad2" /}
+            </div>
+            {include file="common/sidebar" /}
+        </aside>
+    </div>
+</div>

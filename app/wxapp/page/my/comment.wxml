@@ -1,0 +1,37 @@
+<import src="/assets/libs/zanui/loadmore/index.wxml" />
+
+<view class="container">
+  <view class="archives-list">
+    <view class="zan-panel">
+      <block wx:for="{{ commentList }}" wx:key="key">
+        <navigator url="{{ $item.archives.model_id==2 ? '../product/detail?id='+item.archives.id : '../news/detail?id='+item.archives.id }}">
+          <view class="zan-card">
+            <view class="zan-card__thumb">
+              <view class="image" style="background-image:url('{{item.archives.image}}')"></view>
+            </view>
+            <view class="zan-card__detail">
+              <view class="zan-card__detail-row">
+                <view class="zan-card__left-col zan-ellipsis--l2">
+                  {{ item.archives.title }}
+                </view>
+              </view>
+
+              <view class="zan-card__detail-row zan-c-gray">
+                <view class="zan-card__right-col"></view>
+                <view class="zan-card__left-col">
+                  “{{ item.content }}”
+                </view>
+                <view class="zan-card__left-col">
+                  {{ item.create_date }}
+                </view>
+              </view>
+            </view>
+          </view>
+        </navigator>
+      </block>
+    </view>
+  </view>
+  <template is="zan-loadmore" data="{{ loading: loading }}" />
+  <template is="zan-loadmore" data="{{ nodata: nodata }}" />
+  <template is="zan-loadmore" data="{{ nomore: nomore }}" />
+</view>

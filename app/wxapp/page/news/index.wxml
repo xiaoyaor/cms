@@ -1,0 +1,47 @@
+<import src="/assets/libs/zanui/tab/index.wxml" />
+<import src="/assets/libs/zanui/loadmore/index.wxml" />
+<view class="container">
+
+  <!-- S 选项卡 -->
+  <view class="tab">
+    <template is="zan-tab" data="{{ ...tab, componentId: 'tab' }}"></template>
+  </view>
+  <!-- E 选项卡 -->
+
+  <!-- S 资讯列表 -->
+  <view class="archives-list">
+    <view class="zan-panel">
+      <block wx:for="{{ archivesList }}" wx:key="key">
+        <navigator url='detail?id={{ item.id }}'>
+          <view class="zan-card">
+            <view class="zan-card__thumb">
+              <view class="image" style="background-image:url('{{item.image}}')"></view>
+            </view>
+            <view class="zan-card__detail">
+              <view class="zan-card__detail-row">
+                <view class="zan-card__left-col zan-ellipsis--l2">
+                  {{ item.title }}
+                </view>
+              </view>
+
+              <view class="zan-card__detail-row zan-c-gray">
+                <view class="zan-card__right-col"></view>
+                <view class="zan-card__left-col author">
+                  {{ item.author }} {{ item.create_date }}
+                </view>
+              </view>
+            </view>
+          </view>
+        </navigator>
+      </block>
+    </view>
+  </view>
+  <!-- E 资讯列表 -->
+
+  <!-- S 加载更多 -->
+  <template is="zan-loadmore" data="{{ loading: loading }}" />
+  <template is="zan-loadmore" data="{{ nodata: nodata }}" />
+  <template is="zan-loadmore" data="{{ nomore: nomore }}" />
+  <!-- E 加载更多 -->
+
+</view>

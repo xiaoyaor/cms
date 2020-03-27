@@ -1,0 +1,26 @@
+<div class="col-xs-12 col-sm-6">
+    <div class="article-item no-border">
+        <div class="media">
+            <div class="media-left">
+                <a href="{$item.url}">
+                    <div class="embed-responsive embed-responsive-square img-zoom">
+                        <img src="{$item.image}">
+                    </div>
+                </a>
+            </div>
+            <div class="media-body">
+                <h3 class="article-title">
+                    <a href="{$item.url}">{$item.title}</a>
+                </h3>
+                <div class="article-intro hidden-xs">
+                    {$item.description}
+                </div>
+                <div class="article-tag">
+                    <a href="{$item.channel.url}" class="tag tag-primary">{$item.channel.name}</a>
+                    <span itemprop="date">{:date("Y年m月d日", $item['publishtime'])}</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<view class="container">
+
+  <view class="zan-panel" wx:if="{{ type == 'getuserinfo'}}">
+    <view class="zan-panel-title">温馨提示</view>
+    <view style='padding:15px;'>为了更好的为你服务，请点击授权登录</view>
+    <view class="zan-btns">
+      <button open-type="getUserInfo" bindgetuserinfo='bindGetUserInfo' class='zan-btn zan-btn--primary'>
+        <i class="fa fa-user"></i> 点击这里授权登录</button>
+    </view>
+  </view>
+</view>

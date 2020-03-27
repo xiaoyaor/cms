@@ -1,0 +1,62 @@
+<div id="comment-container">
+    <!-- S 评论列表 -->
+    <div id="commentlist">
+        {assign name="aid" value="$[aid]" /}
+        {cms:commentlist id="comment" type="[type]" aid="$aid" pagesize="10"}
+        <dl id="comment-{$comment.id}">
+            <dt><a href="{$comment.user.url}" target="_blank"><img src='{$comment.user.avatar}'/></a></dt>
+            <dd>
+                <div class="parent">
+                    <cite><a href='{$comment.user.url}' target="_blank">{$comment.user.nickname}</a></cite>
+                    <small> {$comment.createtime|human_date} <a href="javascript:;" data-id="{$comment.id}" title="@{$comment.user.nickname} " class="reply">回复TA</a></small>
+                    <p>{$comment.content}</p>
+                </div>
+            </dd>
+            <div class="clearfix"></div>
+        </dl>
+        {/cms:commentlist}
+        {if $__COMMENTLIST__->isEmpty()}
+        <div class="loadmore loadmore-line loadmore-nodata"><span class="loadmore-tips">暂无评论</span></div>
+        {/if}
+    </div>
+    <!-- E 评论列表 -->
+
+    <!-- S 评论分页 -->
+    <div id="commentpager" class="text-center">
+        {cms:commentinfo type="full" /}
+    </div>
+    <!-- E 评论分页 -->
+
+    <!-- S 发表评论 -->
+    <div id="postcomment">
+        <h3>发表评论 <a href="javascript:;">
+            <small>取消回复</small>
+        </a></h3>
+        <form action="{:addon_url('cms/comment/post')}" method="post" id="postform">
+            {:token()}
+            <input type="hidden" name="type" value="[type]"/>
+            <input type="hidden" name="aid" value="{$[aid]}"/>
+            <input type="hidden" name="pid" id="pid" value="0"/>
+            <div class="form-group">
+                <textarea name="content" class="form-control" {if !$user}disabled placeholder="请登录后再发表评论" {/if} id="commentcontent" cols="6" rows="5" tabindex="4"></textarea>
+            </div>
+            {if !$user}
+            <div class="form-group">
+                <a href="{:url('index/user/login', '', false, $Think.config.url_domain_deploy?'www':'')}" class="btn btn-primary">登录</a>
+                <a href="{:url('index/user/register', '', false, $Think.config.url_domain_deploy?'www':'')}" class="btn btn-outline-primary">注册新账号</a>
+            </div>
+            {else /}
+            <div class="form-group">
+                <input name="submit" type="submit" id="submit" tabindex="5" value="提交评论(Ctrl+回车)" class="btn btn-primary"/>
+                <span id="actiontips"></span>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input name="subscribe" type="checkbox" class="checkbox" tabindex="7" checked value="1"/> 有人回复时邮件通知我
+                </label>
+            </div>
+            {/if}
+        </form>
+    </div>
+    <!-- E 发表评论 -->
+</div>

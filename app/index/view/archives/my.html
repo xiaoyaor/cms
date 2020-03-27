@@ -1,0 +1,65 @@
+<style>
+    .panel-post {
+        position: relative;
+    }
+
+    .btn-post {
+        position: absolute;
+        right: 0;
+        bottom: 10px;
+    }
+
+    .img-border {
+        border-radius: 3px;
+        box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    }
+</style>
+<div class="container mt-20">
+    <div id="content-container" class="container">
+        <div class="row">
+            <div class="col-md-3">
+                {include file="common/sidenav" /}
+            </div>
+            <div class="col-md-9">
+                <div class="panel panel-default panel-user">
+                    <div class="panel-body">
+                        <div class="page-header panel-post">
+                            <h2>{$title}</h2>
+                            <a href="{:url('index/cms.archives/post')}{:$model?'?model_id='.$model['id']:''}" class="btn btn-info btn-post"><i class="fa fa-edit"></i> 发布{:$model?$model.name:'文章'}</a>
+                        </div>
+                        {volist name='archivesList' id='item'}
+                        <div class="row">
+                            <div class="col-md-3 text-center">
+                                <div style="padding:15px;">
+                                    <a href="{$item.url}">
+                                        <img class="img-responsive img-border" src="{$item.image}" onerror="this.src='__CDN__/assets/addons/cms/img/noimage.jpg';this.onerror=null;">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <h4>
+                                    <a href="{$item.url}">{$item.title}</a>
+                                </h4>
+                                <p class="text-muted">发布时间：{$item.createtime|datetime}</p>
+                                <div>
+                                    {if $item['status'] == 'normal'}
+                                    <a class="btn btn-success" href="{$item.url}"><i class="fa fa-home"></i> 立即查看</a>
+                                    {elseif $item['status'] == 'rejected'}
+                                    <a class="btn btn-danger" href="{:url('index/cms.archives/post')}?id={$item.id}" data-toggle="tooltip" title="{$item.memo}"><i class="fa fa-pencil"></i> 被拒绝</a>
+                                    {elseif $item['status'] == 'pulloff'}
+                                    <a class="btn btn-default" href="javascript:;" data-toggle="tooltip" title="{$item.memo}"><i class="fa fa-pencil"></i> 已下架</a>
+                                    {elseif $item['status'] == 'hidden' /}
+                                    <a class="btn btn-info" href="{:url('index/cms.archives/post')}?id={$item.id}" data-toggle="tooltip" title="请耐心等待后台审核,审核前你可以继续修改"><i class="fa fa-pencil"></i> 正在审核</a>
+                                    {/if}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        {/volist}
+                        <div class="pager">{$archivesList->render()}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+<import src="/assets/libs/towxml/entry.wxml" />
+
+<view class="container">
+
+  <image class="logo" src="https://cdn.fastadmin.net/assets/img/logo.svg"></image>
+
+    <view class="zan-panel-title">关于我们</view>
+    <view class="zan-panel zan-font-12">
+      <template is="entry" data="{{...pageInfo.article}}" />
+    </view>
+  
+</view>

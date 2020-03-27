@@ -1,0 +1,25 @@
+/**基础风格样式**/
+@import '/assets/libs/towxml/style/main.wxss';
+
+/**主题配色（浅色样式）**/
+@import '/assets/libs/towxml/style/theme/light.wxss';
+
+.logo {
+  display: block;
+  margin: 30px auto;
+  width: 90px;
+  height:110px;
+}
+.zan-panel {
+  padding:15px;
+}
+
+
+.h2w, .h2w__pre {
+  font-size: 28rpx;
+}
+
+.h2w__main {
+  margin: 0;
+  padding-top: 10rpx;
+}

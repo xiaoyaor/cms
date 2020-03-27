@@ -1,0 +1,32 @@
+<div class="col-sm-4 col-md-3 product-item">
+    <div class="card">
+        <div class="thumb">
+            <a href="{$item.url}" class="preview-link">
+                <div class="embed-responsive embed-responsive-4by3">
+                    <img src="{$item.image|cdnurl}" alt="">
+                </div>
+            </a>
+            <a href="{$item.url}" class="quickview-link"><i class="fa fa-search"></i></a>
+        </div>
+        <div class="title">
+            <h2><a href="{$item.url}" {if $item.style}style="{$item.style_text}"{/if}>{$item.title}</a></h2>
+        </div>
+        <div class="operate">
+            <div class="pull-left text-gray">
+                <div class="mt-1">
+                    <span class="">
+                        <i class="fa fa-eye"></i> {$item.views}
+                    </span>
+                    <span class="ml-2">
+                        <i class="fa fa-comments"></i> {$item.comments}
+                    </span>
+                </div>
+            </div>
+            <div class="pull-right">
+                <a href="{$item.url}" class="btn btn-primary detail">{:__('View detail')}</a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+</div>

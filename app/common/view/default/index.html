@@ -1,0 +1,157 @@
+{layout name="common/layout" /}
+<div class="container" id="content-container">
+
+    <!--<div style="margin-bottom:20px;">-->
+    <!--{cms:block name="bannerad"/}-->
+    <!--</div>-->
+
+    <div class="row">
+
+        <main class="col-md-8">
+            <div class="swiper-container index-focus">
+                <!-- S 焦点图 -->
+                <div id="index-focus" class="carousel slide carousel-focus" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        {cms:blocklist id="block" name="indexfocus" row="5"}
+                        <li data-target="#index-focus" data-slide-to="{:$i-1}" class="{if $i==1}active{/if}"></li>
+                        {/cms:blocklist}
+                    </ol>
+                    <div class="carousel-inner" role="listbox">
+                        {cms:blocklist id="block" name="indexfocus" row="5"}
+                        <div class="item {if $i==1}active{/if}">
+                            <a href="{$block.url}">
+                                <div class="carousel-img" style="background-image:url('{$block.image|cdnurl}');"></div>
+                                <div class="carousel-caption hidden-xs">
+                                    <h3>{$block.title}</h3>
+                                </div>
+                            </a>
+                        </div>
+                        {/cms:blocklist}
+                    </div>
+                    <a class="left carousel-control" href="#index-focus" role="button" data-slide="prev">
+                        <span class="icon-prev fa fa-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#index-focus" role="button" data-slide="next">
+                        <span class="icon-next fa fa-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+                <!-- E 焦点图 -->
+            </div>
+
+            <div class="panel panel-default index-gallary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <span>热门图集</span>
+                        <div class="more">
+                            <a href="{:addon_url('cms/channel/index', [':id'=>2, ':diyname'=>'product'])}">查看更多</a>
+                        </div>
+                    </h3>
+
+                </div>
+                <div class="panel-body">
+                    <div class="related-article">
+                        <div class="row">
+                            <!-- S 热门图集 -->
+                            {cms:arclist id="item" model="2" orderby="views" row="4"}
+                            <div class="col-sm-3 col-xs-6">
+                                <a href="{$item.url}" class="img-zoom">
+                                    <div class="embed-responsive embed-responsive-4by3">
+                                        <img src="{$item.image}" alt="{$item.title}" class="embed-responsive-item">
+                                    </div>
+                                </a>
+                                <h5>{$item.title}</h5>
+                            </div>
+                            {/cms:arclist}
+                            <!-- E 热门图集 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <span>最近更新</span>
+
+                        <div class="more hidden-xs">
+                            <ul class="list-unstyled list-inline">
+                                <!-- E 栏目筛选 -->
+                                {cms:channellist id="item" condition="'list'=type" limit="6"}
+                                <li>{$item.textlink}</li>
+                                {/cms:channellist}
+                                <!-- E 栏目筛选 -->
+                            </ul>
+                        </div>
+                    </h3>
+                </div>
+                <div class="panel-body p-0">
+                    <div class="article-list">
+                        {include file="common/index_list" /}
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <aside class="col-xs-12 col-sm-4">
+            <div class="panel panel-default lasest-update">
+                <!-- S 最近更新 -->
+                <div class="panel-heading">
+                    <h3 class="panel-title">{:__('Recently update')}</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-unstyled">
+                        {cms:arclist id="new" row="8" orderby="id" orderway="desc"}
+                        <li>
+                            <span>[<a href="{$new.channel.url}">{$new.channel.name}</a>]</span>
+                            <a class="link-dark" href="{$new.url}" title="{$new.title}">{$new.title}</a>
+                        </li>
+                        {/cms:arclist}
+                    </ul>
+                </div>
+                <!-- E 最近更新 -->
+            </div>
+
+            <div class="panel panel-blockimg">
+
+            </div>
+
+            {include file="common/sidebar" /}
+
+        </aside>
+    </div>
+</div>
+
+<div class="container hidden-xs j-partner">
+    <div class="panel panel-default">
+        <!-- S 合作伙伴 -->
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                合作伙伴
+                <small>感谢以下的合作伙伴的大力支持</small>
+                <a href="https://wpa.qq.com/msgrd?v=3&uin={cms:config name='cms.contactqq' /}&site=&menu=yes" target="_blank" class="more">联系我们</a>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <ul class="list-unstyled list-partner">
+                {cms:block name="partner" /}
+            </ul>
+        </div>
+        <!-- E 合作伙伴 -->
+
+        <!-- S 友情链接 -->
+        <div class="panel-heading">
+            <h3 class="panel-title">友情链接
+                <small>申请友情链接请务必先做好本站链接</small>
+                <a href="https://wpa.qq.com/msgrd?v=3&uin={cms:config name='cms.contactqq' /}&site=&menu=yes" target="_blank" class="more">申请友链</a></h3>
+        </div>
+        <div class="panel-body">
+            <div class="list-unstyled list-links">
+                {cms:block name="friendlink" /}
+            </div>
+        </div>
+        <!-- E 友情链接 -->
+    </div>
+
+</div>

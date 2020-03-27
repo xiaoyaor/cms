@@ -1,0 +1,27 @@
+<article class="article-item">
+    <div class="media">
+        <div class="media-left">
+            <a href="{$item.url}">
+                <div class="embed-responsive embed-responsive-4by3 img-zoom">
+                    <img src="{$item.image}">
+                </div>
+            </a>
+        </div>
+        <div class="media-body">
+            <h3 class="article-title">
+                <a href="{$item.url}" {if $item.style}style="{$item.style_text}"{/if}>{$item.title}</a>
+            </h3>
+            <div class="article-intro hidden-xs">
+                {$item.description}
+            </div>
+            <div class="article-tag">
+                <a href="{$item.channel.url}" class="tag tag-primary">{$item.channel.name}</a>
+                <span itemprop="date">{:date("Y年m月d日", $item['publishtime'])}</span>
+                <span itemprop="likes" title="点赞次数"><i class="fa fa-thumbs-up"></i> {$item.likes} 点赞</span>
+                <span itemprop="comments"><a href="{$item.url}#comments" target="_blank" title="评论数"><i class="fa fa-comments"></i> {$item.comments}</a> 评论</span>
+                <span itemprop="views" title="浏览次数"><i class="fa fa-eye"></i> {$item.views} 浏览</span>
+            </div>
+        </div>
+    </div>
+
+</article>

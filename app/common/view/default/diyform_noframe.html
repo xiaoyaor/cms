@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class=""> <!--<![endif]-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <title>{cms:config name="cms.title"/} - {cms:config name="cms.sitename"/}</title>
+    <meta name="keywords" content="{cms:config name='cms.keywords'/}"/>
+    <meta name="description" content="{cms:config name='cms.description'/}"/>
+
+    <link href="__CDN__/assets/css/frontend{$Think.config.app_debug?'':'.min'}.css?v={$Think.config.site.version}" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="__CDN__/libs/html5shiv.js"></script>
+    <script src="__CDN__/libs/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        body {
+            padding:0;
+        }
+        .diyform-title {
+            font-size:20px;
+        }
+
+        @media (max-width: 767px){
+            .n-bootstrap .n-right {
+                margin-top: 0;
+                top: -20px;
+                position: absolute;
+                left: 0;
+                text-align: right;
+                width: 100%;
+            }
+            .n-bootstrap .col-xs-12 > .n-right .msg-wrap {
+                margin-right: 15px;
+                right:0;
+            }
+        }
+
+    </style>
+    <script type="text/javascript">
+    var require = {
+        config: {$jsconfig|json_encode}
+    };
+</script>
+</head>
+<body>
+
+<div class="container" id="content-container">
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="diyform-content">
+                {if !isset($_GET['notitle']) || !$_GET['notitle']}
+                <div class="diyform-metas text-center">
+                    <h1 class="diyform-title">
+                        {cms:diyform name="title" /}
+                    </h1>
+                </div>
+                <hr>
+                {/if}
+                <div class="py-4">
+                    <!-- S 正文 -->
+
+                    <div class="row">
+                        <div class="col-xs-12 col-md-8 col-md-offset-2">
+                            <form id="post-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="{:addon_url('cms/diyform/post')}">
+                                <input type="hidden" name="__diyname__" value="{$diyform['diyname']}">
+                                {:token()}
+                                {cms:diyform name="fieldslist" /}
+
+                                <div class="form-group normal-footer">
+                                    <label class="control-label col-xs-12 col-sm-2"></label>
+                                    <div class="col-xs-12 col-sm-8">
+                                        <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+                                        <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- E 正文 -->
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    require.callback = function () {
+        define('diyform/index', ['jquery', 'bootstrap', 'frontend', 'form'], function ($, undefined, Frontend, Form) {
+            var Controller = {
+                index: function () {
+                    Form.api.bindevent($("form[role=form]"), function (data, ret) {
+                        Layer.alert(ret.msg, function () {
+                            location.reload();
+                        });
+                        return false;
+                    });
+                }
+            };
+            return Controller;
+        });
+    }
+</script>
+
+<script src="__CDN__/assets/js/require{$Think.config.app_debug?'':'.min'}.js" data-main="__CDN__/assets/js/require-frontend{$Think.config.app_debug?'':'.min'}.js?v={$site.version}"></script>
+</body>
+</html>

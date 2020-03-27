@@ -1,0 +1,98 @@
+{layout name="common/layout" /}
+
+<div class="container" id="content-container">
+
+    <h1 class="category-title">
+        {cms:channel name="name" /}
+        <div class="more pull-right">
+            <ol class="breadcrumb">
+                <!-- S 面包屑导航 -->
+                {cms:breadcrumb id="item"}
+                <li><a href="{$item.url}">{$item.name}</a></li>
+                {/cms:breadcrumb}
+                <!-- E 面包屑导航 -->
+            </ol>
+        </div>
+    </h1>
+    {if $__FILTERLIST__}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                筛选
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="tabs-wrapper">
+                {cms:pagefilter id="filter" exclude=""}
+                <div class="tabs-group">
+                    <div class="title">{$filter.title}:</div>
+                    <ul class="content clearfix">
+                        {volist name="$filter.content" id="item"}
+                        <li class="{$item.active?'active':''}"><a href="{$item.url}">{$item.title}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+                {/cms:pagefilter}
+                <!-- E 分类列表 -->
+            </div>
+        </div>
+    </div>
+    {/if}
+
+    <div class="row">
+
+        <main class="col-xs-12 col-sm-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <span>列表</span>
+                        <div class="more">
+                            <ul class="list-unstyled list-inline category-order clearfix">
+                                <!-- S 排序 -->
+                                {cms:pageorder id="order"}
+                                <li><a href="{$order.url}" class="{$order.active?'active':''}">{$order.title}</a></li>
+                                {/cms:pageorder}
+                                <!-- E 排序 -->
+                            </ul>
+                        </div>
+                    </h3>
+                </div>
+                <div class="panel-body py-0">
+                    <div class="article-list">
+
+                        <!-- S 列表 -->
+                        {cms:pagelist id="item"}
+                        {include file="common/item_news"}
+                        {/cms:pagelist}
+                        <!-- E 列表 -->
+
+                        {/* 普通分页 */ }
+                        {if false}
+                            <!-- S 分页栏 -->
+                            <div class="text-center pager">
+                                {cms:pageinfo type="simple" /}
+                            </div>
+                            <!-- E 分页栏 -->
+                            {if $__PAGELIST__->isEmpty()}
+                            <div class="loadmore loadmore-line loadmore-nodata"><span class="loadmore-tips">暂无数据</span></div>
+                            {/if}
+                        {/if}
+
+                        {/* 无刷新加载下一页 */ }
+                        {if $__PAGELIST__->isEmpty()}
+                            <div class="loadmore loadmore-line loadmore-nodata"><span class="loadmore-tips">暂无更多数据</span></div>
+                        {else /}
+                            <div class="text-center">
+                                <a href="?page={:$__PAGELIST__->getNextPage()}" data-page="{:$__PAGELIST__->getNextPage()}" class="btn btn-default my-4 px-4 btn-loadmore">加载更多</a>
+                            </div>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <aside class="col-xs-12 col-sm-4">
+            {include file="common/sidebar" /}
+        </aside>
+    </div>
+</div>

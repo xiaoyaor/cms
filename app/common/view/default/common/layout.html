@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class=""> <!--<![endif]-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <title>{cms:config name="cms.title"/} - {cms:config name="cms.sitename"/}</title>
+    <meta name="keywords" content="{cms:config name='cms.keywords'/}"/>
+    <meta name="description" content="{cms:config name='cms.description'/}"/>
+
+    <link rel="shortcut icon" href="__CDN__/assets/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" media="screen" href="__CDN__/assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" media="screen" href="__CDN__/assets/libs/font-awesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" media="screen" href="__CDN__/assets/libs/fastadmin-layer/dist/theme/default/layer.css"/>
+    <link rel="stylesheet" media="screen" href="__ADDON__/css/swiper.min.css">
+    <link rel="stylesheet" media="screen" href="__ADDON__/css/common.css?v={cms:config name='site.version'/}"/>
+
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1104524_z1zcv22ej09.css">
+
+    {__STYLE__}
+
+    <!--[if lt IE 9]>
+    <script src="__CDN__/libs/html5shiv.js"></script>
+    <script src="__CDN__/libs/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body class="group-page">
+
+<header class="header">
+    <!-- S 导航 -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{cms:config name='cms.indexurl'/}"><img src="__ADDON__/img/logo.png" width="180" alt=""></a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <!--如果你需要自定义NAV,可使用channellist标签来完成,这里只设置了2级,如果显示无限级,请使用cms:nav标签-->
+                    {cms:channellist id="nav" type="top" condition="1=isnav"}
+                    <!--判断是否有子级或高亮当前栏目-->
+                    <li class="{if $nav.has_child}dropdown{/if} {if $nav->is_active} active{/if}">
+                        <a href="{$nav.url}" {if $nav.has_child} data-toggle="dropdown" {/if}>{$nav.name}{if $nav.has_child} <b class="caret"></b>{/if}</a>
+                        <ul class="dropdown-menu" role="menu">
+                            {cms:channellist id="sub" type="son" typeid="$nav['id']" condition="1=isnav"}
+                            <li><a href="{$sub.url}">{$sub.name}</a></li>
+                            {/cms:channellist}
+                        </ul>
+                    </li>
+                    {/cms:channellist}
+                </ul>
+                <ul class="nav navbar-right hidden">
+                    <ul class="nav navbar-nav">
+                        <li><a href="javascript:;" class="addbookbark"><i class="fa fa-star"></i> 加入收藏</a></li>
+                        <li><a href="javascript:;" class=""><i class="fa fa-phone"></i> 联系我们</a></li>
+                    </ul>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <form class="form-inline navbar-form" action="{:addon_url('cms/search/index')}" method="get">
+                            <div class="form-search hidden-sm hidden-md">
+                                <input class="form-control" name="q" data-suggestion-url="{:addon_url('cms/search/suggestion')}" type="text" id="searchinput" value="{$Think.get.q|default=''|htmlentities}" placeholder="搜索">
+                            </div>
+                        </form>
+                    </li>
+                    <li class="dropdown">
+                        {if $user}
+                        <a href="{:url('index/user/index', '', false, $Think.config.url_domain_deploy?'www':'')}" class="dropdown-toggle" data-toggle="dropdown" style="padding-top: 10px;height: 50px;">
+                            <span class="avatar-img"><img src="{$user.avatar|cdnurl}" style="width:30px;height:30px;border-radius:50%;" alt=""></span>
+                        </a>
+                        {else /}
+                        <a href="{:url('index/user/index', '', false, $Think.config.url_domain_deploy?'www':'')}" class="dropdown-toggle" data-toggle="dropdown">会员<span class="hidden-sm">中心</span> <b class="caret"></b></a>
+                        {/if}
+                        <ul class="dropdown-menu">
+                            {if $user}
+                            <li><a href="{:url('index/user/index', '', false, $Think.config.url_domain_deploy?'www':'')}"><i class="fa fa-user fa-fw"></i>会员中心</a></li>
+                            <li><a href="{:addon_url('cms/user/index', [':id'=>$user['id']])}"><i class="fa fa-user fa-fw"></i>我的个人主页</a></li>
+                            <li><a href="{:url('index/cms.archives/my', '', false, $Think.config.url_domain_deploy?'www':'')}"><i class="fa fa-list fa-fw"></i>我发布的文章</a></li>
+                            <li><a href="{:url('index/cms.archives/post', '', false, $Think.config.url_domain_deploy?'www':'')}"><i class="fa fa-pencil fa-fw"></i>发布文章</a></li>
+                            <li><a href="{:url('index/user/logout', '', false, $Think.config.url_domain_deploy?'www':'')}"><i class="fa fa-sign-out fa-fw"></i>注销</a></li>
+                            {else /}
+                            <li><a href="{:url('index/user/login', '', false, $Think.config.url_domain_deploy?'www':'')}"><i class="fa fa-sign-in fa-fw"></i>登录</a></li>
+                            <li><a href="{:url('index/user/register', '', false, $Think.config.url_domain_deploy?'www':'')}"><i class="fa fa-user-o fa-fw"></i>注册</a></li>
+                            {/if}
+
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+    <!-- E 导航 -->
+
+</header>
+
+{__CONTENT__}
+
+<footer>
+    <div class="container-fluid" id="footer">
+        <div class="container">
+            <div class="row footer-inner">
+                {cms:block name="footer" /}
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div id="floatbtn">
+    <!-- S 浮动按钮 -->
+
+    {if isset($config.wxapp)&&$config.wxapp}
+    <a href="javascript:;">
+        <i class="iconfont icon-wxapp"></i>
+        <div class="floatbtn-wrapper">
+            <div class="qrcode"><img src="{$config.wxapp|cdnurl}"></div>
+            <p>微信小程序</p>
+            <p>微信扫一扫体验</p>
+        </div>
+    </a>
+    {/if}
+
+    <a class="hover" href="{:url('index/cms.archives/post', '', false, $Think.config.url_domain_deploy?'www':'')}" target="_blank">
+        <i class="iconfont icon-pencil"></i>
+        <em>立即<br>投稿</em>
+    </a>
+
+    {if $config.qrcode}
+    <a href="javascript:;">
+        <i class="iconfont icon-qrcode"></i>
+        <div class="floatbtn-wrapper">
+            <div class="qrcode"><img src="{$config.qrcode|cdnurl}"></div>
+            <p>微信公众账号</p>
+            <p>微信扫一扫加关注</p>
+        </div>
+    </a>
+    {/if}
+
+    {if isset($__ARCHIVES__)}
+    <a id="feedback" class="hover" href="#comments">
+        <i class="iconfont icon-feedback"></i>
+        <em>发表<br>评论</em>
+    </a>
+    {/if}
+
+    <a id="back-to-top" class="hover" href="javascript:;">
+        <i class="iconfont icon-backtotop"></i>
+        <em>返回<br>顶部</em>
+    </a>
+    <!-- E 浮动按钮 -->
+</div>
+
+
+<script type="text/javascript" src="__CDN__/assets/libs/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="__CDN__/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__CDN__/assets/libs/fastadmin-layer/dist/layer.js"></script>
+<script type="text/javascript" src="__CDN__/assets/libs/art-template/dist/template-native.js"></script>
+<script type="text/javascript" src="__ADDON__/js/jquery.autocomplete.js"></script>
+<script type="text/javascript" src="__ADDON__/js/swiper.min.js"></script>
+<script type="text/javascript" src="__ADDON__/js/cms.js?r={$site.version}"></script>
+<script type="text/javascript" src="__ADDON__/js/common.js?r={$site.version}"></script>
+
+{__SCRIPT__}
+
+</body>
+</html>

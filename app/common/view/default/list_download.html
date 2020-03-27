@@ -1,0 +1,88 @@
+{layout name="common/layout" /}
+<style>
+    .article-list .media .media-left a {
+        display: block;
+        width: 120px;
+    }
+</style>
+<div class="container" id="content-container">
+
+    <h1 class="category-title">
+        {cms:channel name="name" /}
+        <div class="more pull-right">
+            <ol class="breadcrumb">
+                <!-- S 面包屑导航 -->
+                {cms:breadcrumb id="item"}
+                <li><a href="{$item.url}">{$item.name}</a></li>
+                {/cms:breadcrumb}
+                <!-- E 面包屑导航 -->
+            </ol>
+        </div>
+    </h1>
+    {if $__FILTERLIST__}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                筛选
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="tabs-wrapper">
+                {cms:pagefilter id="filter" exclude=""}
+                <div class="tabs-group">
+                    <div class="title">{$filter.title}:</div>
+                    <ul class="content clearfix">
+                        {volist name="$filter.content" id="item"}
+                        <li class="{$item.active?'active':''}"><a href="{$item.url}">{$item.title}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+                {/cms:pagefilter}
+                <!-- E 分类列表 -->
+            </div>
+        </div>
+    </div>
+    {/if}
+
+    <div class="row">
+
+        <main class="col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <span>列表</span>
+
+                        <div class="more">
+                            <ul class="list-unstyled list-inline category-order clearfix">
+                                <!-- S 排序 -->
+                                {cms:pageorder id="order"}
+                                <li><a href="{$order.url}" class="{$order.active?'active':''}">{$order.title}</a></li>
+                                {/cms:pageorder}
+                                <!-- E 排序 -->
+                            </ul>
+                        </div>
+                    </h3>
+                </div>
+                <div class="panel-body py-0">
+                    <div class="article-list row">
+                        <!-- S 列表 -->
+                        {cms:pagelist id="item"}
+                        {include file="common/item_download"}
+                        {/cms:pagelist}
+                        <!-- E 列表 -->
+
+                        <!-- S 分页栏 -->
+                        <div class="text-center pager">
+                            {cms:pageinfo type="full" /}
+                        </div>
+                        <!-- E 分页栏 -->
+
+                        {if $__PAGELIST__->isEmpty()}
+                        <div class="loadmore loadmore-line loadmore-nodata"><span class="loadmore-tips">暂无数据</span></div>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>

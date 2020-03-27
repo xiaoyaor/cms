@@ -1,0 +1,32 @@
+<import src="/assets/libs/zanui/tab/index.wxml" />
+<import src="/assets/libs/zanui/loadmore/index.wxml" />
+<view class="container">
+
+  <!-- S 选项卡 -->
+  <view class="tab">
+    <template is="zan-tab" data="{{ ...tab, componentId: 'tab' }}"></template>
+  </view>
+  <!-- E 选项卡 -->
+
+  <!-- S 产品列表 -->
+  <view class="product-list">
+    <view class="products">
+      <block wx:for="{{ archivesList }}" wx:key="{{ item.id }}">
+        <view class="product">
+          <navigator url="detail?id={{ item.id }}" class="link">
+            <view class="image" style="background-image:url('{{item.image}}')"></view>
+            <view class="title">{{item.title}}</view>
+          </navigator>
+        </view>
+      </block>
+    </view>
+  </view>
+  <!-- E 产品列表 -->
+
+  <!-- S 加载更多 -->
+  <template is="zan-loadmore" data="{{ loading: loading }}" />
+  <template is="zan-loadmore" data="{{ nodata: nodata }}" />
+  <template is="zan-loadmore" data="{{ nomore: nomore }}" />
+  <!-- E 加载更多 -->
+
+</view>

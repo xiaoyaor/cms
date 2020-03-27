@@ -1,0 +1,117 @@
+<import src="/assets/libs/towxml/entry.wxml" />
+<import src="/assets/libs/zanui/loadmore/index.wxml" />
+
+<view class="container">
+
+  <!-- S 封面 -->
+  <view class="cover" style="background-image:url({{ archivesInfo.image }})">
+    <view class="overlay">
+      <button data-name="shareBtn" class='share' open-type="share">
+        <i class="fa fa-share-alt"></i>
+      </button>
+    </view>
+  </view>
+  <!-- E 封面 -->
+
+  <!-- S 标题 -->
+  <view class="title">
+    <view class="h1">{{ archivesInfo.title }}</view>
+    <view class="date">{{ archivesInfo.create_date }}</view>
+  </view>
+  <!-- E 标题 -->
+
+  <!-- S 产品列表 -->
+  <view class="product-list">
+    <view class="products">
+      <block wx:for="{{ archivesInfo.productlist }}" wx:key="*this">
+        <view class="product">
+          <view class="image" bindtap="preview" data-url="{{item}}" style="background-image:url('{{item}}')"></view>
+        </view>
+      </block>
+    </view>
+  </view>
+  <!-- E 产品列表 -->
+
+  <!-- S 正文 -->
+  <view class="content">
+    <template is="entry" data="{{...archivesInfo.article}}" />
+  </view>
+  <!-- E 正文 -->
+
+  <!-- S 赞踩 -->
+  <view class="thumbs zan-panel">
+    <view class="like" bindtap="vote" data-type="like" data-id="{{ archivesInfo.id }}">
+      <i class="fa fa-thumbs-up"></i>
+    </view>
+    <view class="progress">
+      <view class="bar">
+        <view class="current" style="width: {{ archivesInfo.likeratio }}%;"></view>
+      </view>
+      <view class="num">
+        <i>{{archivesInfo.likes}}</i> :
+        <span>{{archivesInfo.dislikes}}</span>
+      </view>
+    </view>
+    <view class="dislike" bindtap="vote" data-type="dislike" data-id="{{ archivesInfo.id }}">
+      <i class="fa fa-thumbs-down"></i>
+    </view>
+  </view>
+  <!-- E 赞踩 -->
+
+  <!-- S 发表评论 -->
+  <view class="postcomment zan-panel">
+    <view class="zan-panel-title">发表评论</view>
+    <form bindsubmit="formSubmit">
+      <view class="zan-cell zan-field">
+        <textarea placeholder="请输入评论内容" focus="{{form.focus}}" name="content" class="zan-field__input zan-cell__bd " value="{{ form.message }}" />
+      </view>
+      <view class="zan-btns">
+        <button wx:if="{{ userInfo }}" formType="submit" class='zan-btn zan-btn--small zan-btn--primary'>提交</button>
+        <button wx:if="{{ !userInfo }}" bindgetuserinfo="login" open-type="getUserInfo" class='zan-btn zan-btn--small zan-btn--primary'>立即登录</button>
+      </view>
+    </form>
+  </view>
+  <!-- E 发表评论 -->
+
+  <!-- S 回复列表 -->
+  <view class="commentlist zan-panel">
+    <view class="zan-panel-title">回复列表</view>
+    <view style="padding:15px 0;">
+      <block wx:for="{{ commentList }}" wx:index="index" wx:key="pid">
+        <view class="zan-card">
+          <view class="zan-card__thumb">
+            <image class="zan-card__img" src="{{ item.user.avatar }}" mode="aspectFit"></image>
+          </view>
+          <view class="zan-card__detail">
+            <view class="zan-card__detail-row zan-c-gray">
+              <view class="zan-card__left-col" style='margin-right:0'>
+                <view class="comment-author">
+                  <i class="fa fa-user"></i> {{ item.user.nickname }}
+                </view>
+                <view class="comment-date" style='margin-right:auto;'>
+                  {{ item.create_date }}
+                </view>
+                <view class="comment-reply" bindtap="reply" data-pid="{{ item.pid }}" data-nickname="{{ item.user.nickname }}">
+                  <i class="fa fa-reply"></i>
+                </view>
+              </view>
+            </view>
+            <view class="zan-card__detail-row">
+              <view class="zan-card__left-col zan-font-12" style="margin-right:0;">
+                <template is="entry" data="{{...item.article}}" />
+              </view>
+            </view>
+
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+  <!-- E 回复列表 -->
+
+  <!-- S 加载更多 -->
+  <template is="zan-loadmore" data="{{ loading: loading }}" />
+  <template is="zan-loadmore" data="{{ nodata: nodata }}" />
+  <template is="zan-loadmore" data="{{ nomore: nomore }}" />
+  <!-- E 加载更多 -->
+</view>

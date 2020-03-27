@@ -1,0 +1,67 @@
+
+<div class="panel panel-blockimg">
+    {cms:block name="sidebarad1" /}
+</div>
+
+<!-- S 热门资讯 -->
+<div class="panel panel-default hot-article">
+    <div class="panel-heading">
+        <h3 class="panel-title">{:__('Recommend news')}</h3>
+    </div>
+    <div class="panel-body">
+        {cms:arclist id="item" model="1" row="10" flag="recommend" orderby="id" orderway="asc"}
+        <div class="media media-number">
+            <div class="media-left">
+                <span class="num">{$i}</span>
+            </div>
+            <div class="media-body">
+                <a class="link-dark" href="{$item.url}" title="{$item.title}">{$item.title}</a>
+            </div>
+        </div>
+        {/cms:arclist}
+    </div>
+</div>
+<!-- E 热门资讯 -->
+
+<div class="panel panel-blockimg">
+    {cms:block name="sidebarad2" /}
+</div>
+
+<!-- S 热门标签 -->
+<div class="panel panel-default hot-tags">
+    <div class="panel-heading">
+        <h3 class="panel-title">{:__('Hot tags')}</h3>
+    </div>
+    <div class="panel-body">
+        <div class="tags">
+            {cms:tagslist id="tag" orderby="rand" limit="30"}
+            <a href="{$tag.url}" class="tag"> <span>{$tag.name}</span></a>
+            {/cms:tagslist}
+        </div>
+    </div>
+</div>
+<!-- E 热门标签 -->
+
+<!-- S 推荐下载 -->
+<div class="panel panel-default recommend-article">
+    <div class="panel-heading">
+        <h3 class="panel-title">{:__('Recommend download')}</h3>
+    </div>
+    <div class="panel-body">
+        {cms:arclist id="item" model="3" row="10" flag="recommend" orderby="id" orderway="asc" addon="downloads"}
+        <div class="media media-number">
+            <div class="media-left">
+                <span class="num">{$i}</span>
+            </div>
+            <div class="media-body">
+                <a href="{$item.url}" title="{$item.title}">{$item.title}</a>
+            </div>
+        </div>
+        {/cms:arclist}
+    </div>
+</div>
+<!-- E 推荐下载 -->
+
+<div class="panel panel-blockimg">
+    {cms:block name="sidebarad3" /}
+</div>

@@ -1,0 +1,183 @@
+{layout name="common/layout" /}
+
+<div class="container" id="content-container">
+
+    <div class="row">
+
+        <main class="col-md-8">
+            <div class="panel panel-default article-content">
+                <div class="panel-heading">
+                    <ol class="breadcrumb">
+                        <!-- S 面包屑导航 -->
+                        {cms:breadcrumb id="item"}
+                        <li><a href="{$item.url}">{$item.name}</a></li>
+                        {/cms:breadcrumb}
+                        <!-- E 面包屑导航 -->
+                    </ol>
+                </div>
+                <div class="panel-body">
+                    <div class="article-metas">
+                        <h1 class="metas-title" {if $__ARCHIVES__.style}style="{$__ARCHIVES__.style_text}"{/if}>
+                            {cms:archives name="title" /}
+                        </h1>
+                        <!-- S 标题区域 -->
+                        <div class="metas-body">
+                            <span class="views-num">
+                                <i class="fa fa-eye"></i> {cms:archives name="views" /} 阅读
+                            </span>
+                            <span class="comment-num">
+                                <i class="fa fa-comments"></i> {cms:archives name="comments" /} 评论
+                            </span>
+                            <span class="like-num">
+                                <i class="fa fa-thumbs-o-up"></i>
+                                <span class="js-like-num"> {cms:archives name="likes" /} 点赞
+                                </span>
+                            </span>
+                        </div>
+                        <!-- E 标题区域 -->
+                    </div>
+
+                    <div class="article-text">
+                        <!-- S 正文 -->
+                        <p>
+                            {if (isset($__ARCHIVES__.price) && $__ARCHIVES__.price<=0) || $__ARCHIVES__.is_paid_part_of_content || $__ARCHIVES__.ispaid}
+                            {cms:archives name="content" /}
+                            {/if}
+                        </p>
+                        <!-- E 正文 -->
+                    </div>
+
+                    <!-- S 付费阅读 -->
+                    {if isset($__ARCHIVES__.price) && $__ARCHIVES__.price>0 && !$__ARCHIVES__.ispaid}
+                    <div class="article-pay">
+                        <div class="alert alert-danger">
+                            <strong>温馨提示!</strong> 你需要支付 <b>￥{cms:archives name='price' /}</b> 元后才能查看付费内容
+                            <a href="{:addon_url('cms/order/submit', ['id'=>$__ARCHIVES__.id])}" class="btn btn-success"><i class="fa fa-wechat"></i> 立即支付</a>
+                            <a href="{:addon_url('cms/order/submit', ['id'=>$__ARCHIVES__.id,'paytype'=>'alipay'])}" class="btn btn-primary"><i class="fa fa-money"></i> 支付宝支付</a>
+                            <a href="{:addon_url('cms/order/submit', ['id'=>$__ARCHIVES__.id,'paytype'=>'balance'])}" class="btn btn-warning btn-balance" data-price="{cms:archives name='price' /}"><i class="fa fa-dollar"></i> 余额支付</a>
+                        </div>
+                    </div>
+                    {/if}
+                    <!-- E 付费阅读 -->
+
+                    <div class="article-donate">
+                        <a href="javascript:" class="btn btn-primary btn-like btn-lg" data-action="vote" data-type="like" data-id="{cms:archives name='id' /}" data-tag="archives"><i class="fa fa-thumbs-up"></i> 点赞(<span>{cms:archives name='likes' /}</span>)</a>
+                        <a href="javascript:" class="btn btn-outline-primary btn-donate btn-lg" data-action="donate" data-id="{cms:archives name='id' /}" data-image="{$config.donateimage|cdnurl}"><i class="fa fa-cny"></i> 打赏</a>
+                    </div>
+
+                    <div class="entry-meta">
+                        <ul>
+                            <!-- S 归档 -->
+                            <li>{:__('Article category')}：<a href="{cms:channel name='url' /}">{cms:channel name="name" /}</a></li>
+                            <li>{:__('Article tags')}：{volist name="$__ARCHIVES__.tagslist" id="tag"}<a href="{$tag.url}" class="tag" rel="tag">{$tag.name}</a>{/volist}</li>
+                            <li>{:__('Article views')}：<span>{cms:archives name="views" /}</span> 次浏览</li>
+                            <li>{:__('Post date')}：{cms:archives name="publishtime|datetime" /}</li>
+                            <li>{:__('Article url')}：<a href="{cms:archives name='fullurl' /}">{cms:archives name="fullurl" /}</a></li>
+                            <!-- S 归档 -->
+                        </ul>
+
+                        <ul class="article-prevnext">
+                            <!-- S 上一篇下一篇 -->
+                            {cms:prevnext id="prev" type="prev" archives="__ARCHIVES__.id" channel="__CHANNEL__.id"}
+                            <li>
+                                <span>{:__('Prev')} &gt;</span>
+                                <a href="{$prev.url}">{$prev.title}</a>
+                            </li>
+                            {/cms:prevnext}
+
+                            {cms:prevnext id="next" type="next" archives="__ARCHIVES__.id" channel="__CHANNEL__.id"}
+                            <li>
+                                <span>{:__('Next')} &gt;</span>
+                                <a href="{$next.url}">{$next.title}</a>
+                            </li>
+                            {/cms:prevnext}
+                            <!-- E 上一篇下一篇 -->
+                        </ul>
+                    </div>
+
+                    <div class="article-action-btn">
+                        <div class="pull-left">
+                            <!-- S 收藏 -->
+                            <a class="product-favorite addbookbark mr-2" href="javascript:;">
+                                <i class="fa fa-heart"></i> {:__('Favourite')}
+                            </a>
+                            <!-- E 收藏 -->
+                            <!-- S 分享 -->
+                            <span class="bdsharebuttonbox share-box bdshare-button-style0-16">
+                            <a class="bds_more share-box-a" data-cmd="more">
+                                <i class="fa fa-share"></i> {:__('Share')}
+                            </a>
+                        </span>
+                            <!-- E 分享 -->
+                        </div>
+                        <div class="pull-right">
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="related-article">
+                        <div class="row">
+                            <!-- S 相关文章 -->
+                            {cms:arclist id="relate" tags="__ARCHIVES__.tags" model="__ARCHIVES__.model_id" row="4"}
+                            <div class="col-sm-3 col-xs-6">
+                                <a href="{$relate.url}" class="img-zoom">
+                                    <div class="embed-responsive embed-responsive-4by3">
+                                        <img src="{$relate.image}" alt="{$relate.title}" class="embed-responsive-item">
+                                    </div>
+                                </a>
+                                <h5>{$relate.title}</h5>
+                            </div>
+                            {/cms:arclist}
+                            <!-- E 相关文章 -->
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+            <div class="panel panel-default" id="comments">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{:__('Comment list')}
+                        <small>共有 <span>{cms:archives name="comments" /}</span> 条评论</small>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    {include file="common/comment" type="archives" aid="__ARCHIVES__.id"}
+                </div>
+            </div>
+
+        </main>
+
+        <aside class="col-xs-12 col-sm-4">
+            {if $config['userpage']}
+            <!-- S 关于作者 -->
+            <div class="panel panel-default about-author" data-id="{$__ARCHIVES__.user.id}" itemProp="author" itemscope="" itemType="http://schema.org/Person">
+                <meta itemProp="name" content="{$__ARCHIVES__.user.nickname}"/>
+                <meta itemProp="image" content="{$__ARCHIVES__.user.avatar|cdnurl}"/>
+                <meta itemProp="url" content="{$__ARCHIVES__.user.url}"/>
+                <div class="panel-heading">
+                    <h3 class="panel-title">关于作者</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="{$__ARCHIVES__.user.url}">
+                                <img class="media-object img-circle img-medium" style="width:64px;height:64px;" src="{$__ARCHIVES__.user.avatar|cdnurl}"
+                                     data-holder-rendered="true">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h3 style="margin-top:10px;" class="media-heading">
+                                <a href="{$__ARCHIVES__.user.url}">{$__ARCHIVES__.user.nickname}</a>
+                            </h3>
+                            {$__ARCHIVES__.user.bio|default="这家伙很懒，什么也没写！"}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- E 关于作者 -->
+            {/if}
+            {include file="common/sidebar" /}
+        </aside>
+    </div>
+</div>

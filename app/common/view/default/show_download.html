@@ -1,0 +1,401 @@
+{layout name="common/layout" /}
+<style>
+
+    .entry-box .media-left {
+        padding-right: 20px;
+    }
+
+    .entry-box .media-content {
+        margin-top: 15px;
+        color: #a1a0a0;
+        font-size: 14px;
+
+    }
+
+    .entry-box .media-extend {
+        margin-top: 15px;
+    }
+
+    .entry-box .media-object {
+        width: 150px;
+        height: 150px;
+    }
+
+    .download-num {
+        border-bottom: 1px #e5e5e5 solid;
+        margin-bottom: 30px;
+        padding-bottom: 30px;
+        color: #444;
+    }
+
+    .download-num .num {
+        padding: 10px 0;
+        font-size: 36px;
+        font-weight: 700;
+        text-align: center;
+        height: 65px;
+    }
+
+    .download-num .text {
+        font-size: 18px;
+        line-height: 25px;
+        text-align: center;
+        color: #8e8f94;
+    }
+
+    .base-info h2 {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .base-info .row {
+        margin-bottom: 15px;
+        font-size: 14px;
+    }
+
+    .base-info .row .col-xs-8 {
+        text-align: right;
+    }
+
+    .base-info .link {
+        color: #0084ff;
+    }
+
+    .screenshots-box {
+        margin-top: 30px;
+        position: relative;
+    }
+
+    .swiper-container .swiper-wrapper .swiper-slide {
+        width: auto;
+        cursor: pointer;
+        height: 400px;
+        border-radius: 5px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        margin-right: 20px;
+    }
+
+    .swiper-container .swiper-wrapper .swiper-slide img {
+        height: 100%;
+        border-radius: 5px;
+    }
+
+    .screenshots-box > h2, .download-box > h2, .intro-box > h2, .history-box > h2 {
+        font-size: 18px;
+        color: #444;
+    }
+</style>
+
+<div class="container" id="content-container">
+
+    <div class="row">
+
+        <main class="col-md-8">
+            <div class="panel panel-default article-content">
+                <div class="panel-heading">
+                    <ol class="breadcrumb">
+                        <!-- S 面包屑导航 -->
+                        {cms:breadcrumb id="item"}
+                        <li><a href="{$item.url}">{$item.name}</a></li>
+                        {/cms:breadcrumb}
+                        <!-- E 面包屑导航 -->
+                    </ol>
+                </div>
+                <div class="panel-body">
+                    <div class="entry-box mt-4">
+                        <div class="media-left">
+                            <div style="width:120px;height:120px;">
+                                <div class="embed-responsive embed-responsive-square">
+                                    <img class="embed-responsive-image" src="{cms:archives name='image|cdnurl'}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="media-body">
+                            <h2 class="media-heading" {if $__ARCHIVES__.style}style="{$__ARCHIVES__.style_text}" {/if}>{cms:archives name="title" /}</h2>
+
+                            <div class="media-content">
+                                {cms:archives name="description" /}
+                            </div>
+
+                            <div class="media-extend">
+                                <a href="#download" class="btn btn-primary btn-download-now"><i class="fa fa-download"></i> {:$__ARCHIVES__.price>0?'立即下载':'免费下载'}</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="screenshots-box">
+                        <h2>预览截图</h2>
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+                                {php}$screenshots=explode(',', $__ARCHIVES__['screenshots']);{/php}
+                                {foreach name="$screenshots" id="item"}
+                                <div class="swiper-slide">
+                                    <img itemprop="screenshot" layer-src="{$item|cdnurl}" src="{$item|cdnurl}"/>
+                                </div>
+                                {/foreach}
+                            </div>
+                        </div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                    </div>
+
+                    <div class="intro-box">
+                        <h2>应用介绍</h2>
+                        <!-- S 正文 -->
+                        <p>
+                            {cms:archives name="content" /}
+                        </p>
+                        <!-- E 正文 -->
+                    </div>
+
+                    <div class="copyright-box alert alert-warning"><p>©软件著作权归作者所有。本站所有软件均来源于网络，仅供学习使用，请支持正版！</p>
+                        <p>
+                            转载请注明出处：
+                            <a href="{cms:config name='site.indexurl' /}">{cms:config name="site.name" /}</a> »
+                            <a href="{cms:archives name='fullurl' /}">{cms:archives name="title" /}</a>
+                        </p>
+                    </div>
+
+                    <div class="article-donate">
+                        <a href="javascript:" class="btn btn-primary btn-like btn-lg" data-action="vote" data-type="like" data-id="{cms:archives name='id' /}" data-tag="archives"><i class="fa fa-thumbs-up"></i> 点赞(<span>{cms:archives name='likes' /}</span>)</a>
+                        <a href="javascript:" class="btn btn-outline-primary btn-donate btn-lg" data-action="donate" data-id="{cms:archives name='id' /}" data-image="{$config.donateimage|cdnurl}"><i class="fa fa-cny"></i> 打赏</a>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="panel panel-default" id="download">
+                <div class="panel-heading">
+                    <h3 class="panel-title">立即下载</h3>
+                </div>
+                <div class="panel-body">
+                    <!-- S 下载按钮 -->
+                    <div class="">
+                        {if $__ARCHIVES__.price<=0 || $__ARCHIVES__.ispaid}
+                        {foreach name="$__ARCHIVES__.downloadurl_list" id="item"}
+                        <a href="{$item.url}" class="btn btn-primary btn-download" target="_blank" data-url="{$item.url}" data-id="{cms:archives name='id'/}" data-clipboard-text="{$item.password}">{$item.title}下载</a>
+                        {/foreach}
+                        {else /}
+                        <div class="alert alert-danger">
+                            <strong>温馨提示!</strong> 你需要支付 <b>￥{cms:archives name='price' /}</b> 元后才可以下载
+                            <div class="mt-3">
+                                <a href="{:addon_url('cms/order/submit', ['id'=>$__ARCHIVES__.id])}" target="_blank" class="btn btn-success btn-paynow"><i class="fa fa-wechat"></i> 立即支付</a>
+                                <a href="{:addon_url('cms/order/submit', ['id'=>$__ARCHIVES__.id,'paytype'=>'alipay'])}" target="_blank" class="btn btn-primary btn-paynow"><i class="fa fa-money"></i> 支付宝支付</a>
+                                <a href="{:addon_url('cms/order/submit', ['id'=>$__ARCHIVES__.id,'paytype'=>'balance'])}" class="btn btn-warning btn-balance" data-price="{cms:archives name='price' /}"><i class="fa fa-dollar"></i> 余额支付</a>
+                            </div>
+                        </div>
+                        {/if}
+                    </div>
+                    <!-- E 下载按钮 -->
+                </div>
+
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">相关下载</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-unstyled download-list">
+                        {cms:arclist id="item" tags="__ARCHIVES__.tags" model="__ARCHIVES__.model_id" limit="6"}
+                        <li>
+                            <a href="{$item.url}" class="link img-zoom">
+                                <img src="{$item.image}">
+                                {$item.title}
+                            </a>
+                            <em>{$item.channel.name}</em>
+                            <a href="{$item.url}" class="btn btn-primary">立即下载</a>
+                        </li>
+                        {/cms:arclist}
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="panel panel-default" id="comments">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{:__('Comment list')}
+                        <small>共有 <span>{cms:archives name="comments" /}</span> 条评论</small>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    {include file="common/comment" type="archives" aid="__ARCHIVES__.id"}
+                </div>
+            </div>
+
+        </main>
+
+        <aside class="col-xs-12 col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="download-num counter-box">
+                        <div class="num counter number-count" data-from="0" data-to="{cms:archives name='downloads' /}" data-speed="2000" data-refresh-interval="50">{cms:archives name='downloads|number_format' /}</div>
+                        <div class="text">下载次数</div>
+                    </div>
+
+                    <div class="entry-meta">
+                        <div class="base-info"><h2>信息</h2>
+                            <div class="row">
+                                <div class="col-xs-4">类别</div>
+                                <div class="col-xs-8">
+                                    <a href="{cms:channel name='url' /}" class="link" itemprop="category">{cms:channel name="name" /}</a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4">兼容性</div>
+                                <div class="col-xs-8">
+                                    <span itemprop="operatingSystem">{cms:archives name="os_text" /}</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4">最新版本</div>
+                                <div class="col-xs-8"><span itemprop="softwareVersion">{cms:archives name="version" /}</span></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4">文件大小</div>
+                                <div class="col-xs-8"><span itemprop="fileSize">{cms:archives name="filesize" /}</span></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4">更新日期</div>
+                                <div class="col-xs-8"><span itemprop="datePublished">{cms:archives name="publishtime|date='Y-m-d',###" /}</span></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4">语言</div>
+                                <div class="col-xs-8"><span itemprop="operatingSystem">{cms:archives name="language_text" /}</span></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4">浏览次数</div>
+                                <div class="col-xs-8"><span itemprop="views">{cms:archives name="views" /}</span> 次浏览</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4">标签</div>
+                                <div class="col-xs-8">
+                                    {volist name="$__ARCHIVES__.tagslist" id="tag"}<a href="{$tag.url}" itemprop="keywords" class="tag" rel="tag">{$tag.name}</a>{/volist}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {if $config['userpage']}
+            <!-- S 关于作者 -->
+            <div class="panel panel-default about-author" data-id="{$__ARCHIVES__.user.id}" itemProp="author" itemscope="" itemType="http://schema.org/Person">
+                <meta itemProp="name" content="{$__ARCHIVES__.user.nickname}"/>
+                <meta itemProp="image" content="{$__ARCHIVES__.user.avatar|cdnurl}"/>
+                <meta itemProp="url" content="{$__ARCHIVES__.user.url}"/>
+                <div class="panel-heading">
+                    <h3 class="panel-title">关于作者</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="{$__ARCHIVES__.user.url}">
+                                <img class="media-object img-circle img-medium" style="width:64px;height:64px;" src="{$__ARCHIVES__.user.avatar|cdnurl}"
+                                     data-holder-rendered="true">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h3 style="margin-top:10px;" class="media-heading">
+                                <a href="{$__ARCHIVES__.user.url}">{$__ARCHIVES__.user.nickname}</a>
+                            </h3>
+                            {$__ARCHIVES__.user.bio|default="这家伙很懒，什么也没写！"}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- E 关于作者 -->
+            {/if}
+            {include file="common/sidebar" /}
+        </aside>
+    </div>
+</div>
+<script type="text/html" id="downloadtpl">
+    <div class="p-4" style="min-width:300px;">
+        <div class="p-2 mb-4 text-center" style="background:#eee;border-radius:5px;">
+            <h4>提取码 <span class="text-danger"><%=code%></span> 已复制</h4>
+        </div>
+        <p><a href="<%=url%>" target="_blank" data-id="{cms:archives name='id'/}" class="btn btn-block btn-primary btn-download btn-lg">前往下载</a></p>
+    </div>
+</script>
+<script data-render="script" src="__ADDON__/js/clipboard.min.js"></script>
+<script data-render="script">
+    $(function () {
+
+        //格式化数字
+        var number_format = function (text) {
+            return text.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        };
+
+        //动画数字
+        $('.number-count').each(function () {
+            var $this = $(this);
+            $({from: 0, to: $this.data("to"), elem: $this}).animate({from: $this.data("to")}, {
+                duration: 1000,
+                easing: 'swing',
+                step: function () {
+                    $this.text(number_format(Math.ceil(this.from)));
+                },
+                complete: function () {
+                    if (number_format(this.to) != this.elem.text()) {
+                        this.elem.text(number_format(this.to));
+                    }
+                }
+            });
+        });
+
+        //立即下载
+        $(document).on('click', '.btn-download-now', function () {
+            $('html,body').animate({
+                scrollTop: $("#download").offset().top - 60
+            }, 700);
+            return false;
+        });
+
+        //点击复制
+        var clipboard = new ClipboardJS('.btn-download');
+        clipboard.on('success', function (e) {
+            layer.open({
+                title: '',
+                content: template("downloadtpl", {code: e.text, url: $(e.trigger).data("url")}),
+                btn: false
+            });
+            e.clearSelection();
+        });
+
+        //下载统计
+        $(document).on('click', '.btn-download', function () {
+            var id = $(this).data("id");
+            if ($(this).data("clipboard-text")) {
+                return false;
+            }
+            if (!CMS.api.storage("download." + id)) {
+                CMS.api.ajax({
+                    url: "{:addon_url('cms/archives/download')}",
+                    data: {id: $(this).data("id")}
+                }, function () {
+                    CMS.api.storage("download." + id, true);
+                    return false;
+                }, function () {
+                    return false;
+                });
+            }
+        });
+
+        //预览图片
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 'auto', height: 300,
+            navigation: {
+                nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev',
+            }, on: {
+                slideNextTransitionEnd: function () {
+                    if (swiper.progress == 1) {
+                        swiper.activeIndex = swiper.slides.length - 1;
+                    }
+                }
+            }
+        });
+        layer.photos({
+            photos: '.screenshots-box'
+            , anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+        });
+    });
+</script>

@@ -1,0 +1,61 @@
+{
+  "pages": [
+    "page/index/index",
+    "page/news/index",
+    "page/news/detail",
+    "page/product/index",
+    "page/product/detail",
+    "page/my/index",
+    "page/my/comment",
+    "page/my/profile",
+    "page/my/bind",
+    "page/my/aboutus",
+    "page/my/setting"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#DE3639",
+    "navigationBarTitleText": "FastAdmin",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#aaaaaa",
+    "selectedColor": "#28ba9c",
+    "borderStyle": "black",
+    "backgroundColor": "#000000",
+    "list": [
+      {
+        "pagePath": "page/index/index",
+        "iconPath": "assets/images/tabbar/index.png",
+        "selectedIconPath": "assets/images/tabbar/index-hl.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "page/news/index",
+        "iconPath": "assets/images/tabbar/store.png",
+        "selectedIconPath": "assets/images/tabbar/store-hl.png",
+        "text": "资讯"
+      },
+      {
+        "pagePath": "page/product/index",
+        "iconPath": "assets/images/tabbar/addon.png",
+        "selectedIconPath": "assets/images/tabbar/addon-hl.png",
+        "text": "产品"
+      },
+      {
+        "pagePath": "page/my/index",
+        "iconPath": "assets/images/tabbar/my.png",
+        "selectedIconPath": "assets/images/tabbar/my-hl.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "connectSocket": 10000,
+    "uploadFile": 10000,
+    "downloadFile": 10000
+  },
+  "debug": true,
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,77 @@
+// QCSS spacing © https://github.com/diqidoq/qcss under GPL 3
+
+@space: 5px;
+@min-height: 43px;
+.generate-spacing-steps(4);
+
+.generate-spacing-steps(@n, @i: 0) when (@i =< @n) {
+  .m-@{i} {
+    margin-top: (@space * @i) !important;
+    margin-right: (@space * @i) !important;
+    margin-bottom: (@space * @i) !important;
+    margin-left: (@space * @i) !important;
+  }
+  .mt-@{i} {
+    margin-top: (@space * @i) !important;
+  }
+  .mr-@{i} {
+    margin-right: (@space * @i) !important;
+  }
+  .mb-@{i} {
+    margin-bottom: (@space * @i) !important;
+  }
+  .ml-@{i} {
+    margin-left: (@space * @i) !important;
+  }
+  .mx-@{i} {
+    margin-left: (@space * @i) !important;
+    margin-right: (@space * @i) !important;
+  }
+  .my-@{i} {
+    margin-top: (@space * @i) !important;
+    margin-bottom: (@space * @i) !important;
+  }
+  .p-@{i} {
+    padding-top: (@space * @i) !important;
+    padding-right: (@space * @i) !important;
+    padding-bottom: (@space * @i) !important;
+    padding-left: (@space * @i) !important;
+  }
+  .pt-@{i} {
+    padding-top: (@space * @i) !important;
+  }
+  .pr-@{i} {
+    padding-right: (@space * @i) !important;
+  }
+  .pb-@{i} {
+    padding-bottom: (@space * @i) !important;
+  }
+  .pl-@{i} {
+    padding-left: (@space * @i) !important;
+  }
+  .px-@{i} {
+    padding-left: (@space * @i) !important;
+    padding-right: (@space * @i) !important;
+  }
+  .py-@{i} {
+    padding-top: (@space * @i) !important;
+    padding-bottom: (@space * @i) !important;
+  }
+
+  .generate-spacing-steps(@n, (@i + 1));
+}
+
+.mx-auto {
+  margin: 0 auto !important;
+  float: none !important;
+}
+
+.my-auto-parent {
+  position: relative !important;
+}
+
+.my-auto {
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}

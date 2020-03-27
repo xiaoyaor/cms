@@ -1,0 +1,17 @@
+<import src="/assets/libs/zanui/field/index.wxml" />
+<import src="/assets/libs/zanui/dialog/index.wxml" />
+
+<view class="container">
+
+  <form bindsubmit="formSubmit" bindreset="formReset">
+    <view class="zan-panel">
+      <template is="zan-field" data="{{ ...base.account }}"></template>
+      <template is="zan-field" data="{{ ...base.password }}"></template>
+    </view>
+    <view class="zan-btns">
+      <button class="zan-btn zan-btn--primary" formType="submit">立即绑定</button>
+      <button class="zan-btn" formType="reset">重置数据</button>
+    </view>
+  </form>
+
+</view>

@@ -1,0 +1,236 @@
+<!-- Logo -->
+<a href="javascript:;" class="logo">
+    <!-- 迷你模式下Logo的大小为50X50 -->
+    <span class="logo-mini">{$site.name|mb_substr=0,4,'utf-8'|mb_strtoupper='utf-8'}</span>
+    <!-- 普通模式下Logo -->
+    <span class="logo-lg"><b>{$site.name}</b></span>
+</a>
+
+<!-- 顶部通栏样式 -->
+<nav class="navbar navbar-static-top">
+
+    <!--第一级菜单-->
+    <div id="firstnav">
+        <!-- 边栏切换按钮-->
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">{:__('Toggle navigation')}</span>
+        </a>
+
+        <!--如果不想在顶部显示角标,则给ul加上disable-top-badge类即可-->
+        <ul class="nav nav-tabs nav-addtabs disable-top-badge hidden-xs" role="tablist">
+            {$navlist|RAW}
+        </ul>
+
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+
+                <!--菜单模式切换-->
+                {if $site.head_switch}
+                <li class="hidden-xs" data-toggle="tooltip" data-placement="right" title="切换为{if $site.multiplenav}二{else}一{/if}级菜单模式">
+                    <a href="{:url('index/index')}?act=switch-multiplenav-{if $site.multiplenav}off{else}on{/if}" style="padding-top:14px;padding-bottom:14px;">
+                        <i class="fa fa-toggle-{if $site.multiplenav}on{else}off{/if}" style="font-size:20px;"></i>
+                    </a>
+                </li>
+                {/if}
+
+                <!--相关链接-->
+                {if $site.head_links}
+                <li>
+                    <a href="javascript:;" data-toggle="dropdown" title="相关链接">
+                        <i class="fa fa-sitemap"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{$easyadmin.url}" target="_blank">官方网站</a></li>
+                        <li><a href="{$easyadmin.addons_url}" target="_blank">插件市场</a></li>
+                        <li><a href="{$easyadmin.doc_url}" target="_blank">官方文档</a></li>
+                        <li><a href="{$easyadmin.ask_url}" target="_blank">交流社区</a></li>
+                        <li><a href="{$easyadmin.gitee_url}" target="_blank">Gitee开源</a></li>
+                        <li><a href="{$easyadmin.github_url}" target="_blank">Github开源</a></li>
+                        <li><a href="{$easyadmin.QQqun}" target="_blank">QQ交流群</a></li>
+                    </ul>
+                </li>
+                {/if}
+
+                <!--首页-->
+                {if $site.head_home}
+                <li>
+                    <a href="/" target="_blank"><i class="fa fa-home" style="font-size:14px;"></i></a>
+                </li>
+                {/if}
+
+                <!-- 检测更新 -->
+                {if $site.head_update&&hook('Version')}
+                <li class="hidden-xs">
+                    <a href="javascript:;" data-toggle="checkupdate" title="{:__('Check for updates')}">
+                        <i class="fa fa-refresh"></i>
+                    </a>
+                </li>
+                {/if}
+
+                <!-- 清除缓存 -->
+                {if $site.head_cache}
+                <li>
+                    <a href="javascript:;" data-toggle="dropdown" title="{:__('Wipe cache')}">
+                        <i class="fa fa-trash"></i><span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu wipecache">
+                        <li><a href="javascript:;" data-type="all"><i class="fa fa-trash"></i> {:__('Wipe all cache')}</a></li>
+                        <li class="divider"></li>
+                        <li><a href="javascript:;" data-type="content"><i class="fa fa-file-text"></i> {:__('Wipe content cache')}</a></li>
+                        <li><a href="javascript:;" data-type="template"><i class="fa fa-file-image-o"></i> {:__('Wipe template cache')}</a></li>
+                        <li><a href="javascript:;" data-type="addons"><i class="fa fa-rocket"></i> {:__('Wipe addons cache')}</a></li>
+                    </ul>
+                </li>
+                {/if}
+
+                <!-- 多语言列表 -->
+                {if $site.head_lan}
+                {if $easyadmin.lang_switch_on}
+                <li class="hidden-xs">
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-language"></i><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="{$config['language']=='zh-cn'?'active':''}">
+                            <a href="?ref=addtabs&lang=zh-cn">简体中文</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li class="{$config['language']=='en'?'active':''}">
+                            <a href="?ref=addtabs&lang=en">English</a>
+                        </li>
+                    </ul>
+                </li>
+                {/if}
+                {/if}
+
+                <!-- 全屏按钮 -->
+                {if $site.head_max}
+                <li class="hidden-xs">
+                    <a href="#" data-toggle="fullscreen"><i class="fa fa-arrows-alt"></i></a>
+                </li>
+                {/if}
+
+                <!-- 账号信息下拉框 -->
+                {if $site.head_user&&$admin}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-user"></i><span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="general.profile.html?ref=addtabs"><i class="fa fa-user"></i>{:__('Profile')}</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{:url('login/logout')}"><i class="fa fa-sign-out"></i>{:__('Logout')}</a></li>
+                    </ul>
+                </li>
+                {/if}
+
+                <!--  主控制台 -->
+                <li class="dropdown  messages-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" title="{:__('Console')}">
+                        <img src="/favicon.ico" class="user-image" style="height: 18px;">
+                        <span class="label label-warning">10</span>
+                        {:__('Console')}<span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="header">{:__('You have application', '10')}</li>
+                        <li>
+                            <!-- inner menu: contains the actual data -->
+                            <ul class="menu">
+                                {foreach app_list as $item}
+                                <li><!-- start message -->
+                                    <a href="#">
+                                        <div class="pull-left">
+                                            <img src="/favicon.ico" class="img-circle favicon-style" alt="User Image">
+                                        </div>
+                                        <h4>
+                                            {$item.title}
+                                            <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                                        </h4>
+                                        <p>{$item.name} <img src="/favicon.ico" class="img-circle" alt="User Image" style="height: 10px;"><img src="/favicon.ico" class="img-circle" alt="User Image" style="height: 10px;"><img src="/favicon.ico" class="img-circle" alt="User Image" style="height: 10px;"><img src="/favicon.ico" class="img-circle" alt="User Image" style="height: 10px;"></p>
+                                    </a>
+                                </li>
+                                <!-- end message -->
+                                {/foreach}
+                                <li><!-- start message -->
+                                    <a href="#">
+                                        <div class="pull-left">
+                                            <img src="/favicon.ico" class="img-circle favicon-style" alt="User Image">
+                                        </div>
+                                        <h4>
+                                            系统控制台
+                                            <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                                        </h4>
+                                        <p>系统控制台 <img src="/favicon.ico" class="img-circle" alt="User Image" style="height: 10px;"><img src="/favicon.ico" class="img-circle" alt="User Image" style="height: 10px;"><img src="/favicon.ico" class="img-circle" alt="User Image" style="height: 10px;"><img src="/favicon.ico" class="img-circle" alt="User Image" style="height: 10px;"></p>
+                                    </a>
+                                </li>
+                                <!-- end message -->
+                                <li>
+                                    <a href="#">
+                                        <div class="pull-left">
+                                            <img src="/favicon.ico" class="img-circle favicon-style" alt="User Image">
+                                        </div>
+                                        <h4>
+                                            AdminLTE Design Team
+                                            <small><i class="fa fa-clock-o"></i> 2 hours</small>
+                                        </h4>
+                                        <p>Why not buy a new awesome theme?</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="pull-left">
+                                            <img src="/favicon.ico" class="img-circle favicon-style" alt="User Image">
+                                        </div>
+                                        <h4>
+                                            Developers
+                                            <small><i class="fa fa-clock-o"></i> Today</small>
+                                        </h4>
+                                        <p>Why not buy a new awesome theme?</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="pull-left">
+                                            <img src="/favicon.ico" class="img-circle favicon-style" alt="User Image">
+                                        </div>
+                                        <h4>
+                                            Sales Department
+                                            <small><i class="fa fa-clock-o"></i> Yesterday</small>
+                                        </h4>
+                                        <p>Why not buy a new awesome theme?</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="pull-left">
+                                            <img src="/favicon.ico" class="img-circle favicon-style" alt="User Image">
+                                        </div>
+                                        <h4>
+                                            Reviewers
+                                            <small><i class="fa fa-clock-o"></i> 2 days</small>
+                                        </h4>
+                                        <p>Why not buy a new awesome theme?</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="footer"><a href="#">{:__('View all')}</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    {if $site.multiplenav}
+    <!--第二级菜单,只有在multiplenav开启时才显示-->
+    <div id="secondnav">
+        <ul class="nav nav-tabs nav-addtabs disable-top-badge" role="tablist">
+            {if $fixedmenu}
+            <li role="presentation" id="tab_{$fixedmenu.id}" class="{:$referermenu?'':'active'}"><a href="#con_{$fixedmenu.id}" node-id="{$fixedmenu.id}" aria-controls="{$fixedmenu.id}" role="tab" data-toggle="tab"><i class="fa fa-dashboard fa-fw"></i> <span>{$fixedmenu.title}</span> <span class="pull-right-container"> </span></a></li>
+            {/if}
+            {if $referermenu}
+            <li role="presentation" id="tab_{$referermenu.id}" class="active"><a href="#con_{$referermenu.id}" node-id="{$referermenu.id}" aria-controls="{$referermenu.id}" role="tab" data-toggle="tab"><i class="fa fa-list fa-fw"></i> <span>{$referermenu.title}</span> <span class="pull-right-container"> </span></a> <i class="close-tab fa fa-remove"></i></li>
+            {/if}
+        </ul>
+    </div>
+    {/if}
+</nav>

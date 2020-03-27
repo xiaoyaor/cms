@@ -1,0 +1,46 @@
+<style>
+    .panel-post {
+        position: relative;
+    }
+    #post-form .panel-default {
+        padding:0;
+    }
+</style>
+
+<link rel="stylesheet" href="__CDN__/assets/libs/bootstrap-select/dist/css/bootstrap-select.min.css">
+<div class="container mt-20">
+    <div id="content-container" class="container">
+        <div class="row">
+            <div class="col-md-3">
+                {include file="common/sidenav" /}
+            </div>
+            <div class="col-md-9">
+                <div class="panel panel-default panel-user">
+                    <div class="panel-body">
+                        <div class="page-header panel-post">
+                            <h2>{$diyform.title}</h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <form id="post-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="{:addon_url('cms/diyform/post')}">
+                                    <input type="hidden" name="__diyname__" value="{$diyform['diyname']}">
+                                    {:token()}
+                                    {include file="cms/common/fields" /}
+
+                                    <div class="form-group normal-footer">
+                                        <label class="control-label col-xs-12 col-sm-2"></label>
+                                        <div class="col-xs-12 col-sm-8">
+                                            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+                                            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
